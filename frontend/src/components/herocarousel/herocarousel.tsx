@@ -1,6 +1,6 @@
 import { useState, RefObject } from 'react'
 import { HeroCarouselContainer, HeroCarouselContent, HeroCarouselEntries, HeroCarouselSwitch, HeroSwitchButton } from './herocarousel.styles';
-import { QreateSubtitle, QreateText } from '..';
+import { QreateSubtitle, QreateText, QreateTitle } from '..';
 
 import { carouselTexts } from './herocarousel.data';
 import left_switch from '../../assets/carousel/left_switch.svg';
@@ -39,7 +39,7 @@ export default function HeroCarousel({ carouselRef }: { carouselRef: RefObject<H
                         {...animationSwitch()}
                         transition={{ duration: 0.2 }}
                     >
-                        <QreateSubtitle>{pos + 1}. {carouselTexts[pos].title}</QreateSubtitle>
+                        <QreateTitle small>{pos + 1}. {carouselTexts[pos].title}</QreateTitle>
                         <QreateText>{carouselTexts[pos].subtitle}</QreateText>
                     </HeroCarouselEntries>
                 </AnimatePresence>

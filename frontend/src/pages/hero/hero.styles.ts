@@ -16,7 +16,7 @@ export const HeroDesc = styled.div`
     align-items: center;
     justify-content: center;
     text-align: center; 
-    gap: 2rem;
+    gap: 2.5rem;
 `
 
 export const HeroButtons = styled.div`

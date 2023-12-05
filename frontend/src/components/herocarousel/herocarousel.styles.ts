@@ -27,7 +27,7 @@ export const HeroCarouselContent = styled.div`
     justify-content: space-between;
     align-items: center;
     max-width: 60%;
-    gap: 1rem;
+    gap: 2rem;
 
     @media only screen and (max-width: 990px) {
         max-width: 80%;
