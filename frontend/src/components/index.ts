@@ -11,6 +11,7 @@ export interface TextProps {
 export const QreateTitle = styled.h1<TextProps>`
     font-size: ${props => props.small ? '1.5em' : '2.2em'};
     font-weight: 900;
+    letter-spacing: -0.03em;
     text-align: ${props => props.left ? 'left' : props.right ? 'right' : 'center'};
     color: ${props => props.color ? props.color : 'black'};
     user-select: none;
@@ -21,13 +22,13 @@ export const QreateSubtitle = styled.p<TextProps>`
     text-align: ${props => props.left ? 'left' : props.right ? 'right' : 'center'};
     color: ${props => props.color ? props.color : 'black'};
     user-select: none;
-    letter-spacing: 0.04em;
+    letter-spacing: -0.02em;
     font-weight: 600;
 `
 
 export const QreateText = styled.p<TextProps>`
     font-size: ${props => props.small ? '0.9em' : '1.1em'};
-    letter-spacing: 0.03em;
+    letter-spacing: 0.01em;
     font-weight: 400;
     text-align: ${props => props.justify ? 'justify' : props.left ? 'left' : props.right ? 'right' : 'center'};
     color: ${props => props.color ? props.color : 'black'};

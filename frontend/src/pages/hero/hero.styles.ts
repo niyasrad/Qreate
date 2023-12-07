@@ -8,7 +8,7 @@ export const HeroContainer = styled.div`
 
 export const HeroDesc = styled.div`
     min-height: 70%;
-    width: 40rem;
+    width: 30rem;
     max-width: 80%;
     margin: 2rem auto;
     display: flex;
@@ -16,7 +16,7 @@ export const HeroDesc = styled.div`
     align-items: center;
     justify-content: center;
     text-align: center; 
-    gap: 2.5rem;
+    gap: 5rem;
 `
 
 export const HeroButtons = styled.div`

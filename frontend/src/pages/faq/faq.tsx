@@ -1,5 +1,5 @@
 import { FAQBox, FAQBrand, FAQBrandDetails, FAQBrandIcon, FAQContainer, FAQContent, FAQEntries } from "./faq.styles";
-import { QreateSubtitle, QreateText, QreateTitle } from "../../components";
+import { QreateText, QreateTitle } from "../../components";
 import { FAQData, QreateFAQData } from "./faq.data";
 import FAQEntry from "../../components/faqentry/faqentry";
 import { useEffect, useState } from "react";
@@ -32,7 +32,7 @@ export default function FAQ() {
                         alt="Brand Logo"
                     />
                     <FAQBrandDetails>
-                        <QreateSubtitle left color="white">{FAQData.brand_details.name}</QreateSubtitle>
+                        <QreateTitle left color="white">{FAQData.brand_details.name}</QreateTitle>
                         <QreateText left color="white" small>{FAQData.brand_details.description}</QreateText>
                     </FAQBrandDetails>
                 </FAQBrand>

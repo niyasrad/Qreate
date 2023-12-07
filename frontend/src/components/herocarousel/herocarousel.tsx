@@ -39,7 +39,7 @@ export default function HeroCarousel({ carouselRef }: { carouselRef: RefObject<H
                         {...animationSwitch()}
                         transition={{ duration: 0.2 }}
                     >
-                        <QreateTitle small>{pos + 1}. {carouselTexts[pos].title}</QreateTitle>
+                        <QreateTitle>{pos + 1}. {carouselTexts[pos].title}</QreateTitle>
                         <QreateText>{carouselTexts[pos].subtitle}</QreateText>
                     </HeroCarouselEntries>
                 </AnimatePresence>
