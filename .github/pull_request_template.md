@@ -1,8 +1,8 @@
-# Description
+### Fixes/Implements #
+
+## Description
 
 Summary Goes here.
-
-Fixes # (issue)
 
 ## Type of change
 
@@ -13,7 +13,7 @@ Delete irrelevant options.
 - [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
 - [ ] This change requires a documentation update
 
-# How Has This Been Tested?
+## How Has This Been Tested?
 
 - [ ] Locally Tested
 - [ ] Needs Testing From Production
