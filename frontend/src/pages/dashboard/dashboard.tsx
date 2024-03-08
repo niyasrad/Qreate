@@ -6,22 +6,22 @@ const dashboardItems = [
     {
         title: 'Brand',
         description: 'Qraft your brand and fill details about your brand',
-        link: '/app/dashboard/faq'
+        link: '/app/brand'
     },
     {
         title: 'Editor',
         description: 'Edit your Q&As, and preview the FAQsite',
-        link: '/app/dashboard/brand'
+        link: '/app/editor'
     },
     {
         title: 'lytics',
         description: 'Analyze your Traffic, insights on Qustomers',
-        link: '/app/editor'
+        link: '/app/analytics'
     },
     {
         title: 'FAQ',
         description: 'Visit out own preview FAQ site for inspiration.',
-        link: '/app/analytics'
+        link: '/faq'
     }
 ]
 
