@@ -10,6 +10,13 @@ const navItems = [
     { name: 'lytics', link: '/app/analytics' },
 ]
 
+function getTimeOfDay() {
+    const time = new Date().getHours()
+    if (time >= 5 && time < 12) return "Morning"
+    if (time >= 12 && time < 18) return "Afternoon"
+    return "Evening"
+}
+
 export default function Navbar() {
 
     const [mobileToggle, setMobileToggle] = useState(false)
@@ -47,7 +54,7 @@ export default function Navbar() {
                     <NavbarToggleClose onClick={() => setMobileToggle(false)} />
                 </NavbarTop>
                 <NavbarDesc>
-                    Welcome, and a very good morning, Qreate. Ready to storm the world with your information?
+                    Good {getTimeOfDay()}, Qreate. Embark on a journey of imagination where boundaries cease to exist.
                 </NavbarDesc>
                 <NavbarMobileItems>
                     {navItems.map((item, index) => {
