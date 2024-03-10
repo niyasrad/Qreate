@@ -5,11 +5,7 @@ export const AppcoverContainer = styled.div`
     width: 100%;
     min-height: 100%;
     display: grid;
-    grid-template-rows: 1fr 8fr;
-
-    @media only screen and (max-width: 900px) {
-        grid-template-rows: 1fr 11fr;
-    }
+    grid-template-rows: auto 1fr;
 `
 
 export const AppcoverDisplay = styled.div`
