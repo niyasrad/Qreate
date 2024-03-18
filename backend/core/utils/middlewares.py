@@ -4,9 +4,10 @@ from fastapi import Request, Depends
 
 from core.utils.errors import unauthorized_error
 from core.utils.auth import decode_access_token 
-from core.utils.db import get_db
 
-from pymongo.database import Database
+from pymongo.database import Collection
+
+from bson import ObjectId
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
@@ -32,9 +33,7 @@ def init_middlewares(app):
 
 async def authenticate_user(
     request: Request,
-    role: str,
-    token: str = Depends(oauth2_scheme),
-    db: Database = Depends(get_db),
+    token: str = Depends(oauth2_scheme)
 ):
     """
     Authenticate the user
@@ -53,15 +52,18 @@ async def authenticate_user(
     
     try:
         payload = decode_access_token(token)
-        brand_name: str = payload.get("brand_name")
-        if brand_name is None:
+        brand_id = payload.get("brand_id")
+
+        if brand_id is None:
             raise unauthorized_error()
         
-        name = db.users.find_one({"brand_name": brand_name})
+        brands_collection: Collection = request.app.brands_collection
+        brand_find = brands_collection.find_one({"_id": ObjectId(brand_id)})
 
-        if name is None:
+        if brand_find is None:
             raise unauthorized_error()
-    
+        request.state.brand = brand_find
+
     except:
         raise unauthorized_error()
     

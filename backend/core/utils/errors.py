@@ -32,12 +32,9 @@ def handle_exception(
     error_detail = f"Internal Server Error: {str(e)}"
     return APIError(status_code=status_code, error_type=error_type, detail=error_detail)
 
-def unauthorized_error(field: str):
+def unauthorized_error():
     """
     Create an unauthorized error
-    
-    Parameters:
-    - field (str): the field that is unauthorized
     
     Returns:
     - APIError: the unauthorized error
@@ -45,7 +42,7 @@ def unauthorized_error(field: str):
     return APIError(
         status_code=status.HTTP_401_UNAUTHORIZED,
         error_type="unauthorized",
-        detail=f"You are not authorized to access {field}",
+        detail=f"You are not authorized to access this resource",
     )
 
 def not_found_error(field: str):

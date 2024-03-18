@@ -1,14 +1,17 @@
 from pydantic import BaseModel, Field
 from typing import List, Optional
+from uuid import UUID, uuid4
 
 class FAQItem(BaseModel):
     """
     FAQItem: A class to represent the FAQItem model
 
     Attributes:
+    - faq_id (UUID): the FAQ ID
     - question (str): the question
     - answer (str): the answer   
     """
+    faq_id: Optional[UUID] = Field(default = uuid4(), example = "1")
     question: str = Field(example = "How to return a product?")
     answer: str = Field(example = "You can return a product by visiting the nearest store")
 
@@ -24,12 +27,12 @@ class Brand(BaseModel):
     - FAQList (List[FAQItem]): the list of FAQs
     - image_url (str): the image URL
     """
-    brand_name: str = Field(example = "Gucci")
-    brand_email: str = Field(example = "gucci@gmail.com")
+    brand_name: str = Field(example = "Qreate")
+    brand_email: str = Field(example = "qreate@gmail.com")
     brand_password: str = Field(example = "password")
-    brand_desc: Optional[str] = Field(default = None, example = "Italian luxury brand")
+    brand_desc: Optional[str] = Field(default = None, example = "FAQ website for brands")
     FAQList: Optional[List[FAQItem]] = Field(default=[], example = [{"question": "How to return a product?", "answer": "You can return a product by visiting the nearest store"}])   
-    image_url: Optional[str] = Field(default = None, example = "https://www.gucci.com/images/ecommerce/styles_new/160x160/161723A9L0G1000_001_medium.jpg")
+    image_url: Optional[str] = Field(default = None, example = "https://www.qreate.com/images/ecommerce/styles_new/160x160/161723A9L0G1000_001_medium.jpg")
 
 class BrandDetails(BaseModel):
     """
@@ -41,10 +44,10 @@ class BrandDetails(BaseModel):
     - brand_email (str): the brand email
     - image_url (str): the image URL
     """
-    brand_name: str = Field(example = "Gucci")
-    brand_desc: Optional[str] = Field(example = "Italian luxury brand")
-    brand_email: str = Field(example = "gucci@gmail.com")
-    image_url: Optional[str] = Field(default = None, example = "https://www.gucci.com/images/ecommerce/styles_new/160x160/161723A9L0G1000_001_medium.jpg")
+    brand_name: str = Field(example = "Qreate")
+    brand_desc: Optional[str] = Field(example = "FAQ website for brands")
+    brand_email: str = Field(example = "qreate@gmail.com")
+    image_url: Optional[str] = Field(default = None, example = "https://www.qreate.com/images/ecommerce/styles_new/160x160/161723A9L0G1000_001_medium.jpg")
 
 
 class BrandAuth(BaseModel):
@@ -56,9 +59,9 @@ class BrandAuth(BaseModel):
     - brand_password (str): the brand password
     - brand_email (str): the brand email
     """
-    brand_name: str = Field(example = "Gucci")
+    brand_name: str = Field(example = "Qreate")
+    brand_email: str = Field(example = "qreate@gmail.com")
     brand_password: str = Field(example = "password")
-    brand_email: str = Field(example = "gucci@gmail.com")
 
 class BrandLogin(BaseModel):
     """
@@ -68,20 +71,6 @@ class BrandLogin(BaseModel):
     - brand_email (str): the brand email
     - brand_password (str): the brand password
     """
-    brand_email: str = Field(example = "gucci@gmail.com")
+    brand_email: str = Field(example = "qreate@gmail.com")
     brand_password: str = Field(example = "password")
 
-class BrandResponseWithFAQ(BaseModel):
-    """
-    BrandResponseWithFAQ: A class to represent the response of a brand with FAQs
-
-    Attributes:
-    - brand_id (str): the brand ID
-    - brand_name (str): the brand name
-    - brand_desc (str): the brand description
-    - FAQList (List[FAQItem]): the list of FAQs
-    """
-    brand_id: str = Field(example = "1")
-    brand_name: str = Field(example = "Gucci")
-    brand_desc: Optional[str] = Field(example = "Italian luxury brand")
-    FAQList: Optional[List[FAQItem]] = Field(default=[], example = [{"question": "How to return a product?", "answer": "You can return a product by visiting the nearest store"}])
