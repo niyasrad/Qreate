@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { NavbarContainer, NavbarContent, NavbarLogo, NavbarItems, NavbarItem, NavbarSignout, NavbarMobile, NavbarTop, NavbarToggleOpen, NavbarToggleClose, NavbarDesc, NavbarMobileItems, NavbarMobileLayer } from "./navbar.styles"
 import { useNavigate } from "react-router-dom"
+import { useGlobalContext } from "../../contexts/global.context"
 
 
 const navItems = [
@@ -18,6 +19,8 @@ function getTimeOfDay() {
 }
 
 export default function Navbar() {
+
+    const { handleSignOut } = useGlobalContext()
 
     const [mobileToggle, setMobileToggle] = useState(false)
     const navigate = useNavigate()
@@ -41,7 +44,7 @@ export default function Navbar() {
                             </NavbarItem>
                         )
                     })}
-                    <NavbarItem>Sign-<span>Out</span><NavbarSignout /></NavbarItem>
+                    <NavbarItem onClick={handleSignOut}>Sign-<span>Out</span><NavbarSignout /></NavbarItem>
                 </NavbarItems>
             </NavbarContent>
             <NavbarMobileLayer 
@@ -68,7 +71,7 @@ export default function Navbar() {
                             </NavbarItem>
                         )
                     })}
-                    <NavbarItem>Sign-<span>Out</span><NavbarSignout /></NavbarItem>
+                    <NavbarItem onClick={handleSignOut}>Sign-<span>Out</span><NavbarSignout /></NavbarItem>
                 </NavbarMobileItems>
             </NavbarMobile>
         </NavbarContainer>
