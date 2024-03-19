@@ -1,19 +1,6 @@
 from pydantic import BaseModel, Field
 from typing import List, Optional
-from uuid import UUID, uuid4
-
-class FAQItem(BaseModel):
-    """
-    FAQItem: A class to represent the FAQItem model
-
-    Attributes:
-    - faq_id (UUID): the FAQ ID
-    - question (str): the question
-    - answer (str): the answer   
-    """
-    faq_id: Optional[UUID] = Field(default = uuid4(), example = "1")
-    question: str = Field(example = "How to return a product?")
-    answer: str = Field(example = "You can return a product by visiting the nearest store")
+from core.schema.faq import FAQItem
 
 class Brand(BaseModel):
     """
@@ -48,7 +35,6 @@ class BrandDetails(BaseModel):
     brand_desc: Optional[str] = Field(example = "FAQ website for brands")
     brand_email: str = Field(example = "qreate@gmail.com")
     image_url: Optional[str] = Field(default = None, example = "https://www.qreate.com/images/ecommerce/styles_new/160x160/161723A9L0G1000_001_medium.jpg")
-
 
 class BrandAuth(BaseModel):
     """
