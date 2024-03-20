@@ -25,7 +25,8 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
     Function to handle Log in
 
     @param token: string
-    @param userData: any
+    @param brand_name: string
+    @param brand_email: string
 
     @return void
     */

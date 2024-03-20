@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AuthButton, AuthContainer, AuthContent, AuthFooter, AuthForm, AuthHeader, AuthInput, AuthLabel, AuthSub, AuthSwitch, AuthTitle } from "./auth.styles";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -21,7 +21,13 @@ interface AuthInputInterface {
 
 export default function SignIn() {
 
-    const { handleLogIn } = useGlobalContext()
+    const { handleLogIn, isLoggedIn, isLoading } = useGlobalContext()
+
+    useEffect(() => {
+        if (isLoggedIn && !isLoading) {
+            navigate('/app/dashboard')
+        }
+    }, [isLoggedIn, isLoading])
 
     const navigate = useNavigate()
 
@@ -77,21 +83,31 @@ export default function SignIn() {
             return
         }
 
+        const toastID = toast.loading("Trying to Log In!")
+
         axios.post(import.meta.env.VITE_BASE_API + "/authenticate/login", authForm)
         .then((res) => {
             const data = res.data
             handleLogIn!(data.data.access_token, data.data.brand_name, data.data.brand_email)
-            toast.success(data.message)
+            toast.update(toastID, {
+                render: data.message,
+                isLoading: false,
+                autoClose: 3000,
+                type: 'success'
+            })
             navigate('/app/dashboard')
         })
         .catch((e) => {
-
             if (axios.isAxiosError(e)) {
-                toast.error(handleAPIError(e))
+                toast.update(toastID, {
+                    render: handleAPIError(e),
+                    isLoading: false,
+                    autoClose: 3000,
+                    type: 'error'
+                })
             } else {
                 toast.error("Something went wrong!")
             }
-
         })
         .finally(() => {
             setIsSubmitting(false)
@@ -146,7 +162,7 @@ export default function SignIn() {
                 </AuthForm>
                 <AuthFooter>
                     <AuthSwitch>Don't have an account? <a href="/sign-up">Sign Up</a></AuthSwitch>
-                    <AuthButton onClick={handleSignIn}>Sign In</AuthButton>
+                    <AuthButton $submitting={isSubmitting} onClick={handleSignIn}>Sign In</AuthButton>
                 </AuthFooter>
             </AuthContent>
         </AuthContainer>

@@ -1,10 +1,6 @@
 import { DashboardContainer, DashboardContent, DashboardFront, DashboardSelector, DashboardThread, DashboardThreadL, DashboardThreadR } from "./dashboard.styles"
 import dash_qa from '../../assets/dashboard/qa.png'
 import Selectorcard from "../../components/selectorcard/selectorcard"
-import { useGlobalContext } from "../../contexts/global.context"
-import { useNavigate } from "react-router-dom"
-import Loading from "../../components/loading/loading"
-import { useEffect } from "react"
 
 const dashboardItems = [
     {
@@ -31,19 +27,6 @@ const dashboardItems = [
 
 
 export default function Dashboard() {
-
-    const { isLoggedIn, isLoading, handleSignOut } = useGlobalContext()
-    const navigate = useNavigate()
-
-    useEffect(() => {
-        if (!isLoggedIn && !isLoading) {
-            handleSignOut!()
-            navigate('/sign-in')
-        }
-    }, [isLoggedIn, isLoading])
-    
-
-    if (isLoading) return <Loading />
 
     return (
         <DashboardContainer>

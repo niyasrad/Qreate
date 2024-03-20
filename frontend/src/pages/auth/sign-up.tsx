@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AuthButton, AuthContainer, AuthContent, AuthFooter, AuthForm, AuthHeader, AuthInput, AuthLabel, AuthSub, AuthSwitch, AuthTitle } from "./auth.styles";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -22,9 +22,15 @@ interface AuthInputInterface {
 
 export default function SignUp() {
 
-    const { handleLogIn } = useGlobalContext()
+    const { handleLogIn, isLoading, isLoggedIn } = useGlobalContext()
 
     const navigate = useNavigate()
+
+    useEffect(() => {
+        if (isLoggedIn && !isLoading) {
+            navigate('/app/dashboard')
+        }
+    }, [isLoggedIn, isLoading])
 
     const [authForm, setAuthForm] = useState<SignUpInterface>({
         brand_name: '',
@@ -85,22 +91,31 @@ export default function SignUp() {
             return
         }
 
+        const toastID = toast.loading('Trying to Sign Up!')
+
         axios.post(import.meta.env.VITE_BASE_API + "/authenticate/register", authForm)
         .then((res) => {
             const data = res.data
-
             handleLogIn!(data.data.access_token, data.data.brand_name, data.data.brand_email)
-            toast.success(data.message)
+            toast.update(toastID, {
+                render: data.message,
+                isLoading: false,
+                autoClose: 3000,
+                type: 'success'
+            })
             navigate('/app/dashboard')
         })
         .catch((e) => {
-
             if (axios.isAxiosError(e)) {
-                toast.error(handleAPIError(e))
+                toast.update(toastID, {
+                    render: handleAPIError(e),
+                    isLoading: false,
+                    autoClose: 3000,
+                    type: 'error'
+                })
             } else {
                 toast.error("Something went wrong!")
             }
-
         })
         .finally(() => {
             setIsSubmitting(false)
@@ -157,7 +172,7 @@ export default function SignUp() {
                 </AuthForm>
                 <AuthFooter>
                     <AuthSwitch>Have an account? <a href="/sign-in">Sign In</a></AuthSwitch>
-                    <AuthButton onClick={handleSignUp}>Sign Up</AuthButton>
+                    <AuthButton $submitting={isSubmitting} onClick={handleSignUp}>Sign Up</AuthButton>
                 </AuthFooter>
             </AuthContent>
         </AuthContainer>

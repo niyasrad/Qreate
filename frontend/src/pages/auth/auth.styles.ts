@@ -71,7 +71,7 @@ export const AuthInput = styled.input`
     }
 `
 
-export const AuthButton = styled.button`
+export const AuthButton = styled.button<{ $submitting?: boolean }>`
     width: 100%;
     padding: 0.6rem 1.5rem;
     font-size: 1.4rem;
@@ -80,9 +80,9 @@ export const AuthButton = styled.button`
     transition: 0.3s ease-in-out;
     cursor: pointer;
 
-    background-color: #1C1A1B;
+    background-color: ${props => props.$submitting ? '#FF0000' : '#1C1A1B'};
     border-radius: 0.5rem;
-    box-shadow: inset 0 0 15px rgba(100, 100, 100, 0.8);
+    box-shadow: ${props => props.$submitting ? 'inset 0 0 15px rgba(255, 255, 255, 0.5)' : 'inset 0 0 15px rgba(100, 100, 100, 0.8)'};
 
     &:hover {
         box-shadow: inset 0 0 15px rgba(255, 255, 255, 1);
