@@ -43,22 +43,23 @@ export default function Editor() {
         })
     }, [])
 
-    const handleReorder = (newOrder: FAQEntryInterface[]) => {
+    const handleReorder = (unknownNewOrder: unknown[]) => {
         /*
-
         Function to handle reordering of FAQ List
 
         @param newOrder: FAQEntryInterface[]
 
         @return void
         */
+        
+        const newOrder = unknownNewOrder as FAQEntryInterface[]
 
-        const newFAQList = newOrder.map((entry, index) => {
+        const newFAQList = newOrder.map((entry: FAQEntryInterface, index: number) => {
             return {
                 ...entry,
                 order: index + 1
             }
-        })
+        }) as FAQEntryInterface[]
 
         axios.put(import.meta.env.VITE_BASE_API + '/faq/update-all-faqs', newFAQList)
         .then(() => {})
