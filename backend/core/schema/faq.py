@@ -31,3 +31,16 @@ class FAQDetails(BaseModel):
     question: str = Field(example = "How to return a product?")
     answer: str = Field(example = "You can return a product by visiting the nearest store")
     order: int = Field(example = 1, min = 1)
+
+class FAQUpdate(BaseModel):
+    """
+    FAQUpdate: A class to represent the details of a FAQ update
+
+    Attributes:
+    - faq_id (str): the FAQ ID
+    - question (str): the question
+    - answer (str): the answer 
+    """
+    faq_id: str = Field(example = "1")
+    question: str = Field(example = "How to return a product?")
+    answer: str = Field(example = "You can return a product by visiting the nearest store")

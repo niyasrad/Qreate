@@ -49,11 +49,10 @@ export default function FAQEditEntry({ item, setFAQList }: FAQEditEntryProps ) {
             setIsEditing(false)
             return
         }
-        axios.put(import.meta.env.VITE_BASE_API + '/faq/update-faq', {
+        axios.put(import.meta.env.VITE_BASE_API + '/faq/update-faq-qa', {
             faq_id: item.faq_id,
             question: question,
             answer: answer,
-            order: item.order,
         })
         .then(() => {
             toast.success("FAQ Updated Successfully!")
@@ -105,6 +104,8 @@ export default function FAQEditEntry({ item, setFAQList }: FAQEditEntryProps ) {
             style={{ y, touchAction: 'pan-x' }}
             dragListener={false}
             dragControls={dragControls}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
         >
             <FAQEditEntryQuestion>
                 <FAQEditDrag 

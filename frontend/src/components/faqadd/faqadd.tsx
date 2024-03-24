@@ -46,6 +46,7 @@ export default function FAQAdd({ onCancel, onDone }: FAQAddProps ) {
                 <FAQAddQA
                     placeholder="The meaning of life is 42."
                     value={answer}
+                    minRows={3}
                     onChange={(event) => setAnswer(event.target.value)}
                 />
             </FAQAddBody>
