@@ -2,8 +2,10 @@ from fastapi import APIRouter, Depends, Request, status
 
 from core.utils.errors import validation_error, handle_exception
 from core.utils.middlewares import authenticate_user
-from core.schema.faq import FAQItem, FAQDetails
+from core.schema.faq import FAQItem, FAQDetails, FAQUpdate
 from core.utils.faq import order_check, order_change
+
+from typing import List
 
 import uuid
 
@@ -106,6 +108,69 @@ async def update_faq(request: Request, faq: FAQDetails):
     except Exception as e:
         raise handle_exception(e)
     
+@router.put("/update-faq-qa", dependencies=[Depends(authenticate_user)], status_code=status.HTTP_200_OK)
+async def update_faq_qa(request: Request, faq: FAQUpdate):
+    """
+    Update an existing FAQ's question and answer
+
+    Parameters:
+    - request (Request): the request object
+    - faq (FAQUpdate): the FAQ item
+
+    Returns:
+    - dict: the response message
+    """
+    try:
+        brand_collection = request.app.brands_collection
+        faq_list = request.state.brand["FAQList"]
+        
+        for faq_item in faq_list:
+            if str(faq_item["faq_id"]) == faq.faq_id:
+                faq_item["question"] = faq.question
+                faq_item["answer"] = faq.answer
+                break
+        
+        brand_collection.update_one(
+            {"_id": request.state.brand["_id"]},
+            {"$set": {"FAQList": faq_list}}
+        )
+
+        return {
+            "message": "FAQ updated successfully",
+            "faq": faq
+        }
+    except Exception as e:
+        raise handle_exception(e)
+    
+
+@router.put("/update-all-faqs", dependencies=[Depends(authenticate_user)], status_code=status.HTTP_200_OK)
+async def update_all_faqs(request: Request, faq_list: List[FAQDetails]):
+    """
+    Update all FAQs
+
+    Parameters:
+    - request (Request): the request object
+    - faq_list (List[FAQItem]): the list of FAQs
+
+    Returns:
+    - dict: the response message
+    """
+    try:
+        brand_collection = request.app.brands_collection
+        faq_list = [faq.model_dump() for faq in faq_list]
+
+        brand_collection.update_one(
+            {"_id": request.state.brand["_id"]},
+            {"$set": {"FAQList": faq_list}}
+        )
+
+        return {
+            "message": "All FAQs updated successfully"
+        }
+    except Exception as e:
+        raise handle_exception(e)
+    
+
 @router.delete("/delete-faq", dependencies=[Depends(authenticate_user)], status_code=status.HTTP_200_OK)
 async def delete_faq(request: Request, faq_id: str):
     """

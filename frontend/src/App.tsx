@@ -5,6 +5,7 @@ import { GlobalContext, GlobalContextDefault } from "./contexts/global.context";
 import axios from "axios";
 import { ToastContainer, Zoom, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import Editor from "./pages/editor/editor";
 
 const Hero = lazy(() => import("./pages/hero/hero"));
 const FAQ = lazy(() => import("./pages/faq/faq"));
@@ -132,6 +133,7 @@ export default function App() {
               <Route path="/" element={<Hero />} />
               <Route path="/faq" element={<FAQ />} />
               <Route path="/app/dashboard" element={<Appcover children={<Dashboard />} />} />
+              <Route path="/app/editor" element={<Appcover children={<Editor />} />} />
               <Route path="/sign-in" element={<SignIn />} />
               <Route path="/sign-up" element={<SignUp />} />
           </Routes>
