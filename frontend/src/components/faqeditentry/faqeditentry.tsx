@@ -23,24 +23,58 @@ export default function FAQEditEntry({ item, setFAQList }: FAQEditEntryProps ) {
     const [isDeleting, setIsDeleting] = useState<boolean>(false)
 
     const handleClick = () => {
+        /*
+        Function to handle Clicks for a editing toggle
+
+        @return void
+        */
+
         setIsEditing(!isEditing)
     }
 
     const handleQuestionChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        /*
+        Function to handle Question Change
+
+        @param event: React.ChangeEvent<HTMLTextAreaElement>
+
+        @return void
+        */
+
         setQuestion(event.target.value)
     }
 
     const handleAnswerChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        /*
+        Function to handle Answer Change
+
+        @param event: React.ChangeEvent<HTMLTextAreaElement>
+
+        @return void
+        */
+
         setAnswer(event.target.value)
     }
 
     const handleCancel = () => {
+        /*
+        Function to handle Cancel Editing
+
+        @return void
+        */
+
         setQuestion(item.question)
         setAnswer(item.answer)
         setIsEditing(false)
     }
 
     const handleDone = () => {
+        /*
+        Function to handle Done Editing
+
+        @return void
+        */
+
         if (question === "" || answer === "") {
             toast.error("Question and Answer cannot be empty!")
             return
@@ -76,6 +110,12 @@ export default function FAQEditEntry({ item, setFAQList }: FAQEditEntryProps ) {
     }
 
     const handleDelete = () => {
+        /*
+        Function to handle Delete FAQ
+
+        @return void
+        */
+
         axios.delete(import.meta.env.VITE_BASE_API + '/faq/delete-faq', {
             params: {
                 faq_id: item.faq_id

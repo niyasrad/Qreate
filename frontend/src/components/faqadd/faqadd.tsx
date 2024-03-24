@@ -17,6 +17,13 @@ export default function FAQAdd({ onCancel, onDone }: FAQAddProps ) {
     const [answer, setAnswer] = useState<string>("")
 
     const handleDone = () => {
+        /*
+        Function to handle Done
+        
+        @return void
+        
+        */
+
         if (question === "" || answer === "") {
             toast.error("Question or Answer cannot be empty!")
             return
