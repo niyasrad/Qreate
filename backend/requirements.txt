@@ -7,3 +7,5 @@ passlib
 python-jose
 datetime
 bcrypt
+requests
+python-multipart

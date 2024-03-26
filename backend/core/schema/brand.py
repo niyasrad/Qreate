@@ -12,14 +12,14 @@ class Brand(BaseModel):
     - brand_password (str): the brand password
     - brand_desc (str): the brand description
     - FAQList (List[FAQItem]): the list of FAQs
-    - image_url (str): the image URL
+    - image_url (bool): presence of the image URL
     """
     brand_name: str = Field(example = "Qreate")
     brand_email: str = Field(example = "qreate@gmail.com")
     brand_password: str = Field(example = "password")
     brand_desc: Optional[str] = Field(default = None, example = "FAQ website for brands")
     FAQList: Optional[List[FAQItem]] = Field(default=[], example = [{"question": "How to return a product?", "answer": "You can return a product by visiting the nearest store"}])   
-    image_url: Optional[str] = Field(default = None, example = "https://www.qreate.com/images/ecommerce/styles_new/160x160/161723A9L0G1000_001_medium.jpg")
+    image_url: bool = Field(default = False)
 
 class BrandDetails(BaseModel):
     """
@@ -29,12 +29,12 @@ class BrandDetails(BaseModel):
     - brand_name (str): the brand name
     - brand_desc (str): the brand description
     - brand_email (str): the brand email
-    - image_url (str): the image URL
+    - image_url (bool): presence of the image URL
     """
     brand_name: str = Field(example = "Qreate")
     brand_desc: Optional[str] = Field(example = "FAQ website for brands")
     brand_email: str = Field(example = "qreate@gmail.com")
-    image_url: Optional[str] = Field(default = None, example = "https://www.qreate.com/images/ecommerce/styles_new/160x160/161723A9L0G1000_001_medium.jpg")
+    image_url: bool = Field(default = False)
 
 class BrandAuth(BaseModel):
     """
@@ -60,3 +60,16 @@ class BrandLogin(BaseModel):
     brand_email: str = Field(example = "qreate@gmail.com")
     brand_password: str = Field(example = "password")
 
+class BrandProfile(BaseModel):
+    """
+    BrandProfile: A class to represent the profile of a brand
+    
+    Attributes:
+    - brand_desc (str): the brand description
+    """
+    brand_desc: Optional[str] = Field(example = "FAQ website for brands", default= None) 
+    brand_name: Optional[str] = Field(example = "FAQ website for brands", default= None) 
+  
+    
+
+    

@@ -12,7 +12,6 @@ router = APIRouter(
     tags=["auth"],
 )
 
-
 @router.post("/login", status_code=status.HTTP_200_OK)
 async def login_user(brand: BrandLogin, request: Request):
     """
@@ -98,7 +97,6 @@ async def register_user(brand: BrandAuth,request: Request):
         
     except Exception as e:
         raise handle_exception(e)
-
 
 @router.post("/check", dependencies=[Depends(authenticate_user)], status_code=status.HTTP_200_OK)
 async def authenticate_check(request: Request):
