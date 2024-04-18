@@ -32,7 +32,6 @@ async def get_all_faq(request: Request):
     except Exception as e:
         raise handle_exception(e)
     
-
 @router.post("/add-faq", dependencies=[Depends(authenticate_user)], status_code=status.HTTP_201_CREATED)
 async def add_faq(request: Request, faq: FAQItem):
     """
