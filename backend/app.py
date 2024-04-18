@@ -1,8 +1,10 @@
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
+
 from pymongo import MongoClient
 from dotenv import load_dotenv
 import os
-from api import auth, faq
+from api import auth, faq, brand, image
 from core.utils.middlewares import init_middlewares
 
 app = FastAPI(
@@ -10,6 +12,9 @@ app = FastAPI(
     description="FAQ page generator.",
     version="0.1.0"
 )
+
+os.makedirs(os.path.dirname(f"cdn_assets/"), exist_ok=True)
+app.mount("/cdn_asset/", StaticFiles(directory="cdn_assets"), name="static")
 
 init_middlewares(app)
 
@@ -34,3 +39,5 @@ def read_root():
 
 app.include_router(auth.router)
 app.include_router(faq.router)
+app.include_router(brand.router)
+app.include_router(image.router)
