@@ -4,7 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from pymongo import MongoClient
 from dotenv import load_dotenv
 import os
-from api import auth, faq, brand, image
+from api import auth, faq, brand, image, url
 from core.utils.middlewares import init_middlewares
 
 app = FastAPI(
@@ -41,3 +41,4 @@ app.include_router(auth.router)
 app.include_router(faq.router)
 app.include_router(brand.router)
 app.include_router(image.router)
+app.include_router(url.router)
