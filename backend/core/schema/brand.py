@@ -20,6 +20,7 @@ class Brand(BaseModel):
     brand_desc: Optional[str] = Field(default = None, example = "FAQ website for brands")
     FAQList: Optional[List[FAQItem]] = Field(default=[], example = [{"question": "How to return a product?", "answer": "You can return a product by visiting the nearest store"}])   
     image_url: bool = Field(default = False)
+    custom_url: Optional[str] = Field(default = "", example = "qreate")
 
 class BrandDetails(BaseModel):
     """
@@ -70,6 +71,13 @@ class BrandProfile(BaseModel):
     brand_desc: Optional[str] = Field(example = "FAQ website for brands", default= None) 
     brand_name: Optional[str] = Field(example = "FAQ website for brands", default= None) 
   
+class BrandURL(BaseModel):
+    """
+    BrandURL: A class to represent the image URL of a brand
     
+    Attributes:
+    - image_url (str): the image URL
+    """
+    image_url: str = Field(example = "https://www.google.com")   
 
     
