@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { QreateSubtitle } from "..";
-import { FAQCancelIcon, FAQDoneIcon, FAQIcon, FAQIcons } from "../faqeditentry/faqeditentry.styles";
+import { CancelIcon, DoneIcon, QreateSubtitle } from "..";
+import { FAQIcon, FAQIcons } from "../faqeditentry/faqeditentry.styles";
 import { FAQAddBody, FAQAddContainer, FAQAddHeader, FAQAddQA } from "./faqadd.styles";
 import { toast } from "react-toastify";
 
@@ -37,10 +37,10 @@ export default function FAQAdd({ onCancel, onDone }: FAQAddProps ) {
                 <QreateSubtitle left color="white">New FAQ</QreateSubtitle>
                 <FAQIcons>
                     <FAQIcon $color="white" onClick={onCancel}>
-                        <FAQCancelIcon />
+                        <CancelIcon />
                     </FAQIcon>
                     <FAQIcon $color="white" onClick={handleDone}>
-                        <FAQDoneIcon />
+                        <DoneIcon />
                     </FAQIcon>
                 </FAQIcons>
             </FAQAddHeader>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FAQCancelIcon, FAQDeleteIcon, FAQDoneIcon, FAQEditAnswer, FAQEditDrag, FAQEditDragIcon, FAQEditEntryAE, FAQEditEntryAnswer, FAQEditEntryContainer, FAQEditEntryQE, FAQEditEntryQuestion, FAQEditIcon, FAQEditQuestion, FAQIcon, FAQIcons } from "./faqeditentry.styles";
+import { FAQEditAnswer, FAQEditDrag, FAQEditEntryAE, FAQEditEntryAnswer, FAQEditEntryContainer, FAQEditEntryQE, FAQEditEntryQuestion, FAQEditQuestion, FAQIcon, FAQIcons } from "./faqeditentry.styles";
 
 import { AnimatePresence, useDragControls, useMotionValue } from "framer-motion";
 import { FAQEntryInterface } from "../../pages/editor/editor";
@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import Confirmation, { ConfirmationEnum } from "../confirmation/confirmation";
 import PopUp from "../popup/popup";
+import { CancelIcon, DeleteIcon, DoneIcon, EditDragIcon, EditIcon } from "..";
 
 export interface FAQEditEntryProps {
     item: FAQEntryInterface,
@@ -155,7 +156,7 @@ export default function FAQEditEntry({ item, setFAQList }: FAQEditEntryProps ) {
                         dragControls.start(event)
                     }}
                 >
-                    <FAQEditDragIcon />
+                    <EditDragIcon />
                 </FAQEditDrag>
                 <FAQEditEntryQE>
                     <FAQEditQuestion
@@ -169,18 +170,18 @@ export default function FAQEditEntry({ item, setFAQList }: FAQEditEntryProps ) {
                 {
                     !isEditing ? 
                     <FAQIcon $transform="rotate" onClick={handleClick} >
-                        <FAQEditIcon />
+                        <EditIcon />
                     </FAQIcon>
                     :
                     <>
                         <FAQIcon $color="red" onClick={() => setIsDeleting(true)}>
-                            <FAQDeleteIcon />
+                            <DeleteIcon />
                         </FAQIcon>
                         <FAQIcon $color="white" onClick={handleCancel}>
-                            <FAQCancelIcon />
+                            <CancelIcon />
                         </FAQIcon>
                         <FAQIcon $color="white" onClick={handleDone}>
-                            <FAQDoneIcon />
+                            <DoneIcon />
                         </FAQIcon>
                     </>
                 }

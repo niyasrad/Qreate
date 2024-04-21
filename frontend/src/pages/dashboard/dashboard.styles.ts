@@ -5,8 +5,15 @@ export const DashboardContainer = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    overflow-y: auto;
     width: 100%;
     height: 100%;
+    padding-bottom: 5rem;
+    box-sizing: border-box;
+
+    @media (max-width: 990px) {
+        height: auto;
+    }
 `
 
 export const DashboardContent = styled.div`

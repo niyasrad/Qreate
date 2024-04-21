@@ -90,11 +90,13 @@ async def get_public_brand(request: Request, brand_id: str = None, custom_url: s
             return {
                 "message":"Brand fetched successfully!",
                 "data": {
+                    "brand_id": str(brand["_id"]),
                     "brand_name": brand["brand_name"],
                     "brand_desc": brand["brand_desc"],
                     "brand_email": brand["brand_email"],
                     "image_url": brand["image_url"],
-                    "custom_url": brand["custom_url"] 
+                    "custom_url": brand["custom_url"],
+                    "faq": brand["FAQList"],
                 }
             }
         else:

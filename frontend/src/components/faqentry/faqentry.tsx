@@ -8,6 +8,7 @@ import answer_svg from '../../assets/faq/answer.svg';
 import { AnimatePresence } from "framer-motion";
 
 export interface FAQEntryProps {
+    faq_id: string,
     question: string,
     answer: string
 }

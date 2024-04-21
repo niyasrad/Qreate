@@ -1,11 +1,12 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Suspense, lazy, useLayoutEffect, useState } from "react";
 import Loading from "./components/loading/loading";
-import { GlobalContext, GlobalContextDefault } from "./contexts/global.context";
+import { GlobalContext, GlobalContextDefault, GlobalContextInterface } from "./contexts/global.context";
 import axios from "axios";
-import { ToastContainer, Zoom, toast } from "react-toastify";
+import { ToastContainer, Zoom } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Editor from "./pages/editor/editor";
+import Brand from "./pages/brand/brand";
 
 const Hero = lazy(() => import("./pages/hero/hero"));
 const FAQ = lazy(() => import("./pages/faq/faq"));
@@ -18,26 +19,29 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
 
   const [brandName, setBrandName] = useState<string>(GlobalContextDefault.brandName)
   const [brandEmail, setBrandEmail] = useState<string>(GlobalContextDefault.brandEmail)
+  const [brandID, setBrandID] = useState<string>(GlobalContextDefault.brandID)
+  const [customURL, setCustomURL] = useState<string>(GlobalContextDefault.customURL)
   const [isLoading, setIsLoading] = useState<boolean>(GlobalContextDefault.isLoading)
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(GlobalContextDefault.isLoggedIn)
 
-  const handleLogIn = (token: string, brand_name: string, brand_email: string) => {
+  const handleLogIn = (token: string, brand: GlobalContextInterface) => {
     /*
     Function to handle Log in
 
     @param token: string
-    @param brand_name: string
-    @param brand_email: string
+    @param brand: GlobalContextInterface
 
     @return void
     */
 
     localStorage.setItem('token', token)
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
-    setBrandName(brand_name)
-    setBrandEmail(brand_email)
-    setIsLoggedIn(true)
-    setIsLoading(false)
+    setBrandName(brand.brandName)
+    setBrandEmail(brand.brandEmail)
+    setBrandID(brand.brandID)
+    setCustomURL(brand.customURL)
+    setIsLoggedIn(brand.isLoggedIn)
+    setIsLoading(brand.isLoading)
   }   
 
   const handleSignOut = () => {
@@ -51,6 +55,7 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
       delete axios.defaults.headers.common['Authorization']
       setBrandName(GlobalContextDefault.brandName)
       setBrandEmail(GlobalContextDefault.brandEmail)
+      setBrandID(GlobalContextDefault.brandID)
       setIsLoggedIn(GlobalContextDefault.isLoggedIn)
       setIsLoading(false)
   }
@@ -77,8 +82,15 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
     axios.post(import.meta.env.VITE_BASE_API + '/authenticate/check')
     .then((res) => {
       const data = res.data
-      handleLogIn(token, data.data.brand_name, data.data.brand_email)
-      toast.success(data.message)
+      const brand = data.data
+      handleLogIn(token, {
+        brandName: brand.brand_name,
+        brandEmail: brand.brand_email,
+        brandID: brand._id,
+        customURL: brand.custom_url,
+        isLoading: false,
+        isLoggedIn: true
+      })
     })
     .catch(() => {
       handleSignOut()
@@ -93,10 +105,14 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
       value={{
         brandName,
         brandEmail,
+        brandID,
+        customURL,
         isLoading,
         isLoggedIn,
         setBrandName,
         setBrandEmail,
+        setBrandID,
+        setCustomURL,
         setIsLoading,
         setIsLoggedIn,
         handleLogIn,
@@ -131,9 +147,11 @@ export default function App() {
         <Suspense fallback={<Loading />}>
           <Routes>
               <Route path="/" element={<Hero />} />
-              <Route path="/faq" element={<FAQ />} />
+              <Route path="/brand/:custom_url" element={<FAQ />} />
+              <Route path="/faq/:brand_id" element={<FAQ />} />
               <Route path="/app/dashboard" element={<Appcover children={<Dashboard />} />} />
               <Route path="/app/editor" element={<Appcover children={<Editor />} />} />
+              <Route path="/app/brand" element={<Appcover children={<Brand />} />} />
               <Route path="/sign-in" element={<SignIn />} />
               <Route path="/sign-up" element={<SignUp />} />
           </Routes>
