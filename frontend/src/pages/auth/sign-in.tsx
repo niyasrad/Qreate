@@ -88,7 +88,15 @@ export default function SignIn() {
         axios.post(import.meta.env.VITE_BASE_API + "/authenticate/login", authForm)
         .then((res) => {
             const data = res.data
-            handleLogIn!(data.data.access_token, data.data.brand_name, data.data.brand_email)
+            const brand = data.data
+            handleLogIn!(data.data.access_token, {
+                brandName: brand.brand_name,
+                brandEmail: brand.brand_email,
+                brandID: brand._id,
+                customURL: brand.custom_url,
+                isLoading: false,
+                isLoggedIn: true
+            })
             toast.update(toastID, {
                 render: data.message,
                 isLoading: false,

@@ -1,4 +1,3 @@
-import { Bars3, Check, Cog, Trash, XMark } from "@styled-icons/heroicons-solid";
 import { Reorder, motion } from "framer-motion";
 import TextareaAutosize from "react-textarea-autosize";
 import styled from "styled-components";
@@ -99,35 +98,10 @@ export const FAQIcon = styled.div<{ $transform?: string, $color?: string }>`
     }
 `
 
-export const FAQEditIcon = styled(Cog)`
-    color: #FFFFFF;
-    width: 100%;
-    height: 100%;
-`
-
-export const FAQDoneIcon = styled(Check)`
-    stroke-width: 2rem;
-    color: #00B548;
-`
-
-export const FAQCancelIcon = styled(XMark)`
-    stroke-width: 1rem;
-    color: #FF0000;
-`
-
-export const FAQDeleteIcon = styled(Trash)`
-    color: #000000;
-`
-
 export const FAQEditDrag = styled.div`
     width: 100%;
     height: 100%;
     cursor: grab;
     display: flex;
     align-items: center;
-`
-
-export const FAQEditDragIcon = styled(Bars3)`
-    width: 1.2rem;
-    color: #FFFFFF;
 `

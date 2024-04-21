@@ -6,11 +6,14 @@ import { HeroBG, HeroButtons, HeroContainer, HeroDesc, HeroWorking } from "./her
 import bg_desk from '../../assets/hero/bg-desk.png';
 import HeroCarousel from "../../components/herocarousel/herocarousel";
 import Loading from '../../components/loading/loading';
+import { useNavigate } from 'react-router-dom';
 
 export default function Hero() {
 
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const carouselRef = useRef<HTMLDivElement>(null)
+
+    const navigate = useNavigate()
 
     const handleWorkClick = () => {
         if (carouselRef.current) {
@@ -28,27 +31,31 @@ export default function Hero() {
 
     }, [])
 
-    if (isLoading) return <Loading />
-
     return (
         <HeroContainer>
-            <HeroDesc>
-                <QreateTitle>Qreate</QreateTitle>
-                <QreateText>Unleash the potential of clear communication. Qreate crafts FAQs that resonate with your audience.</QreateText>
-                <HeroButtons>
-                    <QreateButton primary>Coming Soon</QreateButton>
-                    <QreateButton secondary onClick={handleWorkClick}>How It Works?</QreateButton>
-                </HeroButtons>
-            </HeroDesc>
-            <HeroWorking>
-                <HeroBG
-                    src={bg_desk}
-                    alt="background"
-                />
-                <HeroCarousel 
-                    carouselRef={carouselRef}
-                />
-            </HeroWorking>
+        {
+            isLoading ? <Loading />
+            :
+            <>
+                <HeroDesc>
+                    <QreateTitle color='white'>Qreate</QreateTitle>
+                    <QreateText color='white'>Unleash the potential of clear communication. Qreate crafts FAQs that resonate with your audience.</QreateText>
+                    <HeroButtons>
+                        <QreateButton secondary onClick={() => navigate('/sign-up')}>Open Qreate</QreateButton>
+                        <QreateButton primary onClick={handleWorkClick}>How It Works?</QreateButton>
+                    </HeroButtons>
+                </HeroDesc>
+                <HeroWorking>
+                    <HeroBG
+                        src={bg_desk}
+                        alt="background"
+                    />
+                    <HeroCarousel 
+                        carouselRef={carouselRef}
+                    />
+                </HeroWorking>
+            </>
+        }
         </HeroContainer>
     )
 }

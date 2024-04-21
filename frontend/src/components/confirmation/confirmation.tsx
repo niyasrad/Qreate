@@ -1,5 +1,5 @@
-import { QreateSubtitle } from ".."
-import { FAQCancelIcon, FAQDeleteIcon, FAQDoneIcon, FAQIcon } from "../faqeditentry/faqeditentry.styles"
+import { CancelIcon, DeleteIcon, DoneIcon, QreateSubtitle } from ".."
+import { FAQIcon } from "../faqeditentry/faqeditentry.styles"
 import { ConfirmationButtons, ConfirmationContainer, ConfirmationElement } from "./confirmation.styles"
 
 export enum ConfirmationEnum {
@@ -26,10 +26,10 @@ export default function Confirmation({ title, message, confirmation, onDone, onC
             <ConfirmationElement>
                 <ConfirmationButtons>
                     <FAQIcon $color="white" onClick={onCancel}>
-                        <FAQCancelIcon />
+                        <CancelIcon />
                     </FAQIcon>
                     <FAQIcon $color="red" onClick={onDone}>
-                        {confirmation === ConfirmationEnum.DELETE ? <FAQDeleteIcon /> : <FAQDoneIcon />}
+                        {confirmation === ConfirmationEnum.DELETE ? <DeleteIcon /> : <DoneIcon />}
                     </FAQIcon>  
                 </ConfirmationButtons>
             </ConfirmationElement>

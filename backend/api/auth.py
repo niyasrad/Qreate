@@ -42,7 +42,8 @@ async def login_user(brand: BrandLogin, request: Request):
                 "access_token": access_token,
                 "_id": str(brand_find["_id"]),
                 "brand_name": brand_find["brand_name"],
-                "brand_email": brand_find["brand_email"]
+                "brand_email": brand_find["brand_email"],
+                "custom_url": brand_find["custom_url"],
             }
         }
     except Exception as e:
@@ -91,7 +92,8 @@ async def register_user(brand: BrandAuth,request: Request):
                 "access_token": access_token,
                 "_id": str(inserted_user_data["_id"]),
                 "brand_name": inserted_user_data["brand_name"],
-                "brand_email": inserted_user_data["brand_email"]
+                "brand_email": inserted_user_data["brand_email"],
+                "custom_url": ""
             }   
         }
         
@@ -114,7 +116,8 @@ async def authenticate_check(request: Request):
         "data": {
             "_id": str(request.state.brand["_id"]),
             "brand_name": request.state.brand["brand_name"],
-            "brand_email": request.state.brand["brand_email"]
+            "brand_email": request.state.brand["brand_email"],
+            "custom_url": request.state.brand["custom_url"]
         }
     }
 
