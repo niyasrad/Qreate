@@ -2,6 +2,7 @@ import { useState } from "react"
 import { NavbarContainer, NavbarContent, NavbarLogo, NavbarItems, NavbarItem, NavbarSignout, NavbarMobile, NavbarTop, NavbarToggleOpen, NavbarToggleClose, NavbarDesc, NavbarMobileItems, NavbarMobileLayer } from "./navbar.styles"
 import { useNavigate } from "react-router-dom"
 import { useGlobalContext } from "../../contexts/global.context"
+import { toast } from "react-toastify"
 
 
 const navItems = [
@@ -38,7 +39,13 @@ export default function Navbar() {
                             <NavbarItem 
                                 key={index} 
                                 active={window.location.pathname === item.link}
-                                onClick={() => navigate(item.link)}
+                                onClick={() => {
+                                    if (item.link === '/app/analytics') {
+                                        toast.info('Feature Coming Soon!')
+                                        return
+                                    }
+                                    navigate(item.link)
+                                }}
                             >
                                 Q<span>{item.name}</span>
                             </NavbarItem>
@@ -65,7 +72,13 @@ export default function Navbar() {
                             <NavbarItem 
                                 key={index} 
                                 active={window.location.pathname === item.link}
-                                onClick={() => navigate(item.link)}
+                                onClick={() => {
+                                    if (item.link === '/app/analytics') {
+                                        toast.info('Feature Coming Soon!')
+                                        return
+                                    }
+                                    navigate(item.link)
+                                }}
                             >
                                 Q<span>{item.name}</span>
                             </NavbarItem>

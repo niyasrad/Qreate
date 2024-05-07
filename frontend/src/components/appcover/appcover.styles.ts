@@ -22,5 +22,5 @@ export const AppcoverContainer = styled.div`
 
 export const AppcoverDisplay = styled.div`
     height: 100%;
-    overflow: scroll;
+    overflow: auto;
 `
