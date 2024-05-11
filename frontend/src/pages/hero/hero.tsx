@@ -41,7 +41,7 @@ export default function Hero() {
                     <QreateTitle color='white'>Qreate</QreateTitle>
                     <QreateText color='white'>Unleash the potential of clear communication. Qreate crafts FAQs that resonate with your audience.</QreateText>
                     <HeroButtons>
-                        <QreateButton secondary onClick={() => navigate('/sign-up')}>Open Qreate</QreateButton>
+                        <QreateButton onClick={() => navigate('/sign-up')}>Open Qreate</QreateButton>
                         <QreateButton primary onClick={handleWorkClick}>How It Works?</QreateButton>
                     </HeroButtons>
                 </HeroDesc>

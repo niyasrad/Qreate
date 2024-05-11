@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, status, Request
 
-from core.utils.errors import handle_exception, conflict_error
+from core.utils.errors import handle_exception, conflict_error, validation_error
 from core.utils.middlewares import authenticate_user
 
 router = APIRouter(
@@ -25,26 +25,24 @@ async def edit_url(request: Request, custom_url: str):
     existing_custom_url = request.state.brand["custom_url"]
 
     if not custom_url.isalnum():
-        return {
-            "message": "Custom URL should only contain alphanumeric characters!"
-        }
+        raise validation_error("Custom URL")
     
     if existing_custom_url == custom_url:
         return {
             "message": "No changes made to the custom URL!"
         }
 
+    find_brand = brand_collection.find_one({"custom_url": custom_url})
+    if find_brand and find_brand["brand_email"] != brand_email:
+        raise conflict_error("Custom URL")
     try:
-        find_brand = brand_collection.find_one({"custom_url": custom_url})
-        if find_brand and find_brand["brand_email"] != brand_email:
-            return conflict_error("Custom URL")
         brand_collection.update_one({"brand_email": brand_email}, {"$set": {"custom_url": custom_url}})
     
         return {
             "message": "Custom URL updated successfully!"
         }
     except Exception as e:
-        return handle_exception(e)
+        raise handle_exception(e)
     
 @router.delete("/delete-url", dependencies = [Depends(authenticate_user)], status_code = status.HTTP_200_OK)
 async def delete_url(request: Request):
@@ -67,7 +65,7 @@ async def delete_url(request: Request):
             "message": "Custom URL deleted successfully!"
         }
     except Exception as e:
-        return handle_exception(e)
+        raise handle_exception(e)
 
 
 

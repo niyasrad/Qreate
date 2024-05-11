@@ -46,6 +46,7 @@ async def add_logo(request: Request, file: UploadFile = File(None), img_url: str
                 brand_collection.update_one({"_id": brand_id}, {"$set": {"image_url": True}})
         except Exception as e:
             raise handle_exception(e)
+        
         if response.status_code != 200:
             raise not_found_error("image")
 

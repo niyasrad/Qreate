@@ -68,7 +68,7 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
     @return void
     */
 
-    const token = localStorage.getItem('token') || ''
+    const token = localStorage.getItem('token') ?? ''
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
     
     if (!token) {

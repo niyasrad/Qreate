@@ -12,3 +12,22 @@ html, body, #root {
     width: 100%;
     background-color: black;
 }
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: red black;
+  }
+  
+  *::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  *::-webkit-scrollbar-track {
+    background: red;
+  }
+  
+  *::-webkit-scrollbar-thumb {
+    background-color: black;
+    border-radius: 20px;
+    border: 2px solid red;
+  }
