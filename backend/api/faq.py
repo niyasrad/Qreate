@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, Request, status
 
-from core.utils.errors import validation_error, handle_exception
+from core.utils.errors import validation_error, handle_exception, not_found_error
 from core.utils.middlewares import authenticate_user
 from core.schema.faq import FAQItem, FAQDetails, FAQUpdate
 from core.utils.faq import order_check, order_change
@@ -44,22 +44,22 @@ async def add_faq(request: Request, faq: FAQItem):
     Returns:
     - dict: the response message
     """
-    try:
-        brand_collection = request.app.brands_collection
-        faq_list = request.state.brand["FAQList"]
-        faq.faq_id = uuid.uuid4()
-        faq = faq.model_dump()
+    
+    brand_collection = request.app.brands_collection
+    faq_list = request.state.brand["FAQList"]
+    faq.faq_id = uuid.uuid4()
+    faq = faq.model_dump()
 
-        if not faq_list:
-            faq_list = []
+    if not faq_list:
+        faq_list = []
 
-        if not order_check(faq_list, faq):
-            raise validation_error("order")
-       
+    if not order_check(faq_list, faq):
+        raise validation_error("order")
+    
+    try:   
         faq_list = order_change(faq_list, faq, "add")
-       
         faq_list.append(faq)
-        
+
         brand_collection.update_one(
             {"_id": request.state.brand["_id"]},
             {"$set": {"FAQList": faq_list}}
@@ -85,14 +85,14 @@ async def update_faq(request: Request, faq: FAQDetails):
     Returns:
     - dict: the response message
     """
+    
+    brand_collection = request.app.brands_collection
+    faq_list = request.state.brand["FAQList"]
+    faq = faq.model_dump()
+    
+    if not order_check(faq_list, faq):
+        raise validation_error("order")
     try:
-        brand_collection = request.app.brands_collection
-        faq_list = request.state.brand["FAQList"]
-        faq = faq.model_dump()
-        
-        if not order_check(faq_list, faq):
-            raise validation_error("order")
-        
         faq_list = order_change(faq_list, faq, "update")
         
         brand_collection.update_one(
@@ -119,16 +119,21 @@ async def update_faq_qa(request: Request, faq: FAQUpdate):
     Returns:
     - dict: the response message
     """
-    try:
-        brand_collection = request.app.brands_collection
-        faq_list = request.state.brand["FAQList"]
-        
-        for faq_item in faq_list:
-            if str(faq_item["faq_id"]) == faq.faq_id:
-                faq_item["question"] = faq.question
-                faq_item["answer"] = faq.answer
-                break
-        
+    
+    brand_collection = request.app.brands_collection
+    faq_list = request.state.brand["FAQList"]
+    faq_found = False
+    
+    for faq_item in faq_list:
+        if str(faq_item["faq_id"]) == faq.faq_id:
+            faq_item["question"] = faq.question
+            faq_item["answer"] = faq.answer
+            faq_found = True
+            break
+    
+    if faq_found == False:
+        raise not_found_error("FAQ")
+    try:   
         brand_collection.update_one(
             {"_id": request.state.brand["_id"]},
             {"$set": {"FAQList": faq_list}}
@@ -141,7 +146,6 @@ async def update_faq_qa(request: Request, faq: FAQUpdate):
     except Exception as e:
         raise handle_exception(e)
     
-
 @router.put("/update-all-faqs", dependencies=[Depends(authenticate_user)], status_code=status.HTTP_200_OK)
 async def update_all_faqs(request: Request, faq_list: List[FAQDetails]):
     """
@@ -169,7 +173,6 @@ async def update_all_faqs(request: Request, faq_list: List[FAQDetails]):
     except Exception as e:
         raise handle_exception(e)
     
-
 @router.delete("/delete-faq", dependencies=[Depends(authenticate_user)], status_code=status.HTTP_200_OK)
 async def delete_faq(request: Request, faq_id: str):
     """
@@ -182,16 +185,22 @@ async def delete_faq(request: Request, faq_id: str):
     Returns:
     - dict: the response message
     """
-    try:
-        brand_collection = request.app.brands_collection
-        faq_list = request.state.brand["FAQList"]
-        
-        for faq in faq_list:
-            if str(faq["faq_id"]) == faq_id:
-                faq_list = order_change(faq_list, faq, "delete")
-                faq_list.remove(faq)
-                break
-        
+    
+    brand_collection = request.app.brands_collection
+    faq_list = request.state.brand["FAQList"]
+    faq_found = False
+    
+    for faq in faq_list:
+        if str(faq["faq_id"]) == faq_id:
+            faq_list = order_change(faq_list, faq, "delete")
+            faq_list.remove(faq)
+            faq_found = True
+            break
+
+    if faq_found == False:
+        raise not_found_error("FAQ") 
+       
+    try:   
         brand_collection.update_one(
             {"_id": request.state.brand["_id"]},
             {"$set": {"FAQList": faq_list}}

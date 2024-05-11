@@ -51,24 +51,23 @@ async def update_brand_profile(request: Request, brand: BrandProfile):
         brand_collection = request.app.brands_collection
         brand_email = request.state.brand["brand_email"]
         brand = brand.model_dump()
-
-        if brand_collection.find_one({"brand_email": brand_email}):
-            update_data = {}
-            if brand.get("brand_name"):
-                update_data.update({"brand_name": brand["brand_name"]})
-            if brand.get("brand_desc"):
-                update_data.update({"brand_desc": brand["brand_desc"]}) 
-
-            brand_collection.update_one({"brand_email": brand_email}, {"$set": update_data})
-            return {
-                "message":"Profile updated successfully!"
-            }
-        else:
-            raise not_found_error("brand")
-        
+        brand_find = brand_collection.find_one({"brand_email": brand_email})
     except Exception as e:
         raise handle_exception(e)
     
+    if brand_find:
+        update_data = {}
+        if brand.get("brand_name"):
+            update_data.update({"brand_name": brand["brand_name"]})
+        if brand.get("brand_desc"):
+            update_data.update({"brand_desc": brand["brand_desc"]}) 
+        brand_collection.update_one({"brand_email": brand_email}, {"$set": update_data})
+        return {
+            "message":"Profile updated successfully!"
+        }
+    else:
+        raise not_found_error("brand")
+       
 @router.get("/{custom_url}", status_code=status.HTTP_200_OK)
 @router.get("/id/{brand_id}", status_code=status.HTTP_200_OK)
 async def get_public_brand(request: Request, brand_id: str = None, custom_url: str = None):
@@ -86,20 +85,22 @@ async def get_public_brand(request: Request, brand_id: str = None, custom_url: s
     try:
         brand_collection = request.app.brands_collection
         brand = brand_collection.find_one({"_id": ObjectId(brand_id)}) if brand_id else brand_collection.find_one({"custom_url": custom_url})
-        if brand:
-            return {
-                "message":"Brand fetched successfully!",
-                "data": {
-                    "brand_id": str(brand["_id"]),
-                    "brand_name": brand["brand_name"],
-                    "brand_desc": brand["brand_desc"],
-                    "brand_email": brand["brand_email"],
-                    "image_url": brand["image_url"],
-                    "custom_url": brand["custom_url"],
-                    "faq": brand["FAQList"],
-                }
-            }
-        else:
-            return not_found_error("brand")
     except Exception as e:
-        return handle_exception(e)
+        raise handle_exception(e)
+    
+    if brand:
+        return {
+            "message":"Brand fetched successfully!",
+            "data": {
+                "brand_id": str(brand["_id"]),
+                "brand_name": brand["brand_name"],
+                "brand_desc": brand["brand_desc"],
+                "brand_email": brand["brand_email"],
+                "image_url": brand["image_url"],
+                "custom_url": brand["custom_url"],
+                "faq": brand["FAQList"],
+            }
+        }
+    else:
+        raise not_found_error("brand")
+    
